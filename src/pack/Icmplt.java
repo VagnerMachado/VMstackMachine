@@ -11,6 +11,13 @@ public class Icmplt extends Compare
 	
 	public String print()
 	{
-		return "icmplt " + VM.jumpMap.get(jump);
+		return "icmplt " + jump;
 	}
+	
+	public void refract()
+	{
+		jump = VM.jumpMap.get(jump);
+	}
+	
+
 }

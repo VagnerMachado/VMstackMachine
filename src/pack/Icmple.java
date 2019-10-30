@@ -11,6 +11,12 @@ public class Icmple extends Compare
 	
 	public String print()
 	{
-		return "icmple " + VM.jumpMap.get(jump);
+		return "icmple " + jump;
 	}
+	
+	public void refract()
+	{
+		jump = VM.jumpMap.get(jump);
+	}
+	
 }

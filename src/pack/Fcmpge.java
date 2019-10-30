@@ -11,6 +11,11 @@ public class Fcmpge extends Compare
 	
 	public String print() 
 	{	
-		return "fcmpge " + VM.jumpMap.get(jump) ;
+		return "fcmpge " + jump;
+	}
+	
+	public void refract()
+	{
+		jump = VM.jumpMap.get(jump);
 	}
 }

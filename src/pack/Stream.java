@@ -183,8 +183,8 @@ public abstract class Stream
 			System.out.println(" *** ERROR: " + "expected output has extra token(s) in the end ***\n\n" + exp );
 		}
 		else
-			System.out.println("\n *** The program output in file \"" + generated + 
-					"\" matches the expected output in file \"" + expected + "\" ***\n\n");
+			System.out.println("*** The program parsing output in file \"" + generated + 
+					"\" matches the expected parsing output in file \"" + expected + "\" ***\n");
 	}
 
 

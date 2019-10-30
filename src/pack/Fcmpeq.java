@@ -11,6 +11,11 @@ public class Fcmpeq extends Compare
 	
 	public String print() 
 	{	
-		return "fcmpeq " + VM.jumpMap.get(jump) ;
+		return "fcmpeq " + jump;
+	}
+	
+	public void refract()
+	{
+		jump = VM.jumpMap.get(jump);
 	}
 }

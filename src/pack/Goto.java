@@ -11,6 +11,11 @@ public class Goto extends Instruction
 	
 	public String print()
 	{
-		return "goto "+ VM.jumpMap.get(jump);
+		return "goto "+ jump;
+	}
+	
+	public void refract()
+	{
+		jump = VM.jumpMap.get(jump);
 	}
 }

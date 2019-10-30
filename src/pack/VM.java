@@ -6,8 +6,12 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 /*****************************************************************
- The objective of Project 2 is to implement a top-down parser and an 
- instruction store for our VM language. The EBNF is given below.
+ The objective of Project 3 is to build upon project 2, which purpose was to
+ implement a top-down parser and an instruction store for our VM language. 
+ Project 3 will contain a stack of operands
+ and memory locations that will be used for processing the output given by
+ project 2 via a stack based virtual machine. The EBNF for project 2 and other 
+ information is given below.
 
 <instruction list> -> { <instruction unit> }+
 <instruction unit> -> [ <label> ] <instruction>
@@ -70,9 +74,48 @@ public class VM extends LexVM
 	private static ArrayList<Integer> invokeTarget = new ArrayList<Integer>(); //used to check for label existence
 
 
-
+/**
+ * main - parses and executed lexically correct input in file argument args[0] and saves the parsed 
+ * output in args[1]
+ * @param args - an array of Strings
+ */
 	public static void main(String[] args) 
-	{		
+	{	
+
+		System.out.println();
+		if(parseInput(args))
+		{
+			processOnVMstack();
+			System.out.println("** Virtual machine execution ended **\n");
+		}
+		else
+		{
+			System.out.println("** The virtual machine cannot execute because of error(s) on input **\n");
+		}
+
+	}
+
+	/**
+	 * processOnVMstack - performs all actions required for Project 3:
+	 * using a stack and memory cells, the method iterates through the instruction array
+	 * and emit valid, push, pop, compare, invoke and other instructions based on 
+	 * contents of array of instructions. 
+	 */
+	private static void processOnVMstack() 
+	{
+
+
+	}
+
+	/**
+	 * parseInput - performs all actions needed to accomplish Project 2:
+	 * It reads from input file, validates input, instantiates Instructions
+	 * and maps the jump targets to file locations.
+	 * @param args - argument array passed as param to program.
+	 * @return - false if parsing failed due to syntax error, true otherwise
+	 */
+	public static boolean parseInput(String [] args)
+	{
 		boolean labelError = false; // output 7 expects multiple repeated labels to be printed, this boolean controls that
 		boolean invokeError = false; //used to detect undefined target for invoke
 		boolean gotoError = false; //used to detect undefined target for goto
@@ -82,7 +125,7 @@ public class VM extends LexVM
 		if(args.length < 2)
 		{
 			paramWarning();
-			return;
+			return false;
 		}
 		// argv[0]: input file containing tokens defined above
 		// argv[1]: output file displaying a list of the tokens and categories
@@ -114,7 +157,7 @@ public class VM extends LexVM
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
 
-					return;
+					return false;
 				}
 				else
 				{
@@ -124,7 +167,7 @@ public class VM extends LexVM
 						Stream.displayln("Syntax Error: Label expects \":\", parser extracted \"" + colon + "\"\n");
 						Stream.close();
 						displayErrorsOnConsole(args[1]);
-						return;
+						return false;
 					}
 					else
 					{
@@ -151,7 +194,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: iconst expects an integer, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -167,7 +210,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: iload expects an unsigned integer, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -183,7 +226,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: istore expects an unsigned integer, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -199,7 +242,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: fconst expects a float, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -215,7 +258,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: fload expects an unsigned integer, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -231,7 +274,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: fstore expects an unsigned integer, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -308,7 +351,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: Goto expects an unsigned integer, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -324,7 +367,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: Print expects an unsigned integer, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -345,7 +388,7 @@ public class VM extends LexVM
 						Stream.displayln("Syntax Error: Invoke expects unsigned integer parameters, parser extracted \"" + val + "\"");
 						Stream.close();
 						displayErrorsOnConsole(args[1]);
-						return;
+						return false;
 					}
 					if(index != 3)
 					{
@@ -355,7 +398,7 @@ public class VM extends LexVM
 							Stream.displayln("Syntax Error: Invoke expects \",\", parser extracted \"" + val + "\"");
 							Stream.close();
 							displayErrorsOnConsole(args[1]);
-							return;
+							return false;
 						}
 						val = getToken();
 					}
@@ -378,7 +421,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: icmpeq expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -396,7 +439,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: icmpne expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}				
 				break;
 			}
@@ -414,7 +457,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: icmplt expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -432,7 +475,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: icmple expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -450,7 +493,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: icmpgt expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -468,7 +511,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: icmpge expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -485,7 +528,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: fcmpeq expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 
 				break;
@@ -504,7 +547,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: fcmpne expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}				
 				break;
 			}
@@ -522,7 +565,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: fcmplt expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -540,7 +583,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: fcmple expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -558,7 +601,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: fcmpgt expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -576,7 +619,7 @@ public class VM extends LexVM
 					Stream.displayln("Syntax Error: fcmpge expects an unsigned integer jump target, parser extracted \"" + val + "\"");
 					Stream.close();
 					displayErrorsOnConsole(args[1]);
-					return;
+					return false;
 				}
 				break;
 			}
@@ -585,7 +628,7 @@ public class VM extends LexVM
 				Stream.displayln("Syntax Error:  Unexpected state \"" + state.toString() +"\" reached while parsing \"" +  val + "\"");
 				Stream.close();
 				displayErrorsOnConsole(args[1]);
-				return;
+				return false;
 			}
 			val = getToken();
 		}
@@ -600,7 +643,7 @@ public class VM extends LexVM
 		{
 			Stream.close();
 			displayErrorsOnConsole(args[1]);
-			return;
+			return false;
 		}
 
 		//*********    Console  information for the program   ************
@@ -610,20 +653,41 @@ public class VM extends LexVM
 			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
 		System.out.println();
 
+		System.out.println("**Retargeting jump labels**\n");
+		refractJumpTargets();
+		
 		System.out.println("**Printing the array to file**\n");
 		printInstructionArray();
 		Stream.close();
 
 		if(args.length == 3)
 		{
-			System.out.println("**Comparing generated output to expected output**\n");
+			System.out.println("**Comparing generated parsing output to expected parsing output**\n");
 			Stream.compareOutputs(args[1], args[2]);
 		}
 		else
-			System.out.println("**File with expected output not provided as args[2], check " + 
-					args[1] + " for program generated output**\n");
+			System.out.println("**File with expected parsing output not provided as args[2], check " + 
+					args[1] + " for program generated parsing output**\n");
 
 		System.out.println("**The program has ended**\n");
+		return true;
+	}
+
+	/**
+	 * refractJumpTargets - changes the label for Goto, Compare and Invoke objects
+	 * based on the map created during parsing of input file.
+	 */
+	public static void refractJumpTargets()
+	{
+		for (int i = 0; i < arrayLocation; i++)
+		{
+			if (instructionArray[i] instanceof Goto)
+				((Goto) instructionArray[i]).refract();
+			else if (instructionArray[i] instanceof Compare)
+				((Compare) instructionArray[i]).refract();
+			else if (instructionArray[i] instanceof Invoke)
+				((Invoke) instructionArray[i]).refract();
+		}
 	}
 
 	/**
@@ -648,6 +712,7 @@ public class VM extends LexVM
 			System.out.println("**Error: Not able to open output file**\n\n");
 		}
 	}
+
 
 	/**
 	 * printInstructionArray - prints all the program instructions to output file.
