@@ -1,2 +1,2 @@
 # VMstackMachine
-This project builds uon VMParser to implement a stack based virtual machine
+This project builds upon VMParser to implement a stack based virtual machine
