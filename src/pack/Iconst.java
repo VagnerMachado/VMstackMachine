@@ -13,4 +13,10 @@ public class Iconst extends Instruction
 	{
 		return "iconst " + constant;
 	}
+
+	@Override
+	public Object getValue()
+	{
+		return constant;
+	}
 }

@@ -13,4 +13,10 @@ public class Iload extends Instruction
 	{
 		return "iload " + address;
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return address;
+	}
 }

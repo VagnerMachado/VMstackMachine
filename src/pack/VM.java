@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Stack;
+
+//pass name to parent and get valie for all instructions so you can iterate in method for project 3
 
 /*****************************************************************
  The objective of Project 3 is to build upon project 2, which purpose was to
@@ -66,6 +69,7 @@ import java.util.Scanner;
  */
 public class VM extends LexVM
 {
+	//Project 2 variables
 	protected static HashMap<Integer, Integer> jumpMap = new HashMap<Integer, Integer>();
 	private static Instruction [] instructionArray = new Instruction[1000];
 	private static int arrayLocation = 0; //for printing the array
@@ -73,12 +77,16 @@ public class VM extends LexVM
 	private static ArrayList<Integer> gotoTarget = new ArrayList<Integer>(); //used to check for label existence
 	private static ArrayList<Integer> invokeTarget = new ArrayList<Integer>(); //used to check for label existence
 
+	//Project 3 variables
+	private static Stack<Object> operandStack = new Stack<Object>();
+	private static Object [] memory = new Object[1000];
 
-/**
- * main - parses and executed lexically correct input in file argument args[0] and saves the parsed 
- * output in args[1]
- * @param args - an array of Strings
- */
+
+	/**
+	 * main - parses and executed lexically correct input in file argument args[0] and saves the parsed 
+	 * output in args[1]
+	 * @param args - an array of Strings
+	 */
 	public static void main(String[] args) 
 	{	
 
@@ -86,11 +94,11 @@ public class VM extends LexVM
 		if(parseInput(args))
 		{
 			processOnVMstack();
-			System.out.println("** Virtual machine execution ended **\n");
+			System.out.println("\n** Virtual machine execution ended **\n");
 		}
 		else
 		{
-			System.out.println("** The virtual machine cannot execute because of error(s) on input **\n");
+			System.out.println("\n** The virtual machine cannot execute because of error(s) on input **\n");
 		}
 
 	}
@@ -103,8 +111,112 @@ public class VM extends LexVM
 	 */
 	private static void processOnVMstack() 
 	{
-
-
+		int programCounter = 0;
+		while(programCounter < arrayLocation)
+		{
+			//System.out.println("here: " + programCounter);
+			Instruction i = instructionArray[programCounter];
+			if(i instanceof Iconst || i instanceof Fconst)
+			{
+				operandStack.push(i.getValue());
+				programCounter++;
+			}
+			
+			else if(i instanceof Iload || i instanceof Fload)
+			{
+				operandStack.push(memory[(int) i.getValue()]);
+				programCounter++;
+			}
+			
+			else if(i instanceof Istore || i instanceof Fstore)
+			{
+				memory[(int) i.getValue()] = operandStack.pop();
+				programCounter++;
+			}
+			
+			else if(i instanceof Iadd)
+			{
+				int top = (int) operandStack.pop();
+				int bottom = (int) operandStack.pop();
+				operandStack.push(bottom + top);
+				programCounter++;
+			}
+			
+			else if(i instanceof Fadd)
+			{
+				double top = (double) operandStack.pop();
+				double bottom = (double) operandStack.pop();
+				operandStack.push(bottom + top);
+				programCounter++;
+			}
+			
+			else if(i instanceof Isub)
+			{
+				int top = (int) operandStack.pop();
+				int bottom = (int) operandStack.pop();
+				operandStack.push(bottom - top);
+				programCounter++;
+			}
+			
+			else if(i instanceof Fsub)
+			{
+				double top = (double) operandStack.pop();
+				double bottom = (double) operandStack.pop();
+				operandStack.push(bottom - top);
+				programCounter++;
+			}
+			
+			else if(i instanceof Imul)
+			{
+				int top = (int) operandStack.pop();
+				int bottom = (int) operandStack.pop();
+				operandStack.push(bottom * top);
+				programCounter++;
+			}
+			
+			else if(i instanceof Fmul)
+			{
+				double top = (double) operandStack.pop();
+				double bottom = (double) operandStack.pop();
+				operandStack.push(bottom * top);
+				programCounter++;
+			}
+			
+			else if(i instanceof Idiv)
+			{
+				int top = (int) operandStack.pop();
+				int bottom = (int) operandStack.pop();
+				operandStack.push(bottom / top);
+				programCounter++;
+			}
+			
+			else if(i instanceof Fdiv)
+			{
+				double top = (double) operandStack.pop();
+				double bottom = (double) operandStack.pop();
+				operandStack.push(bottom / top);
+				programCounter++;
+			}
+			
+			else if (i instanceof Print)
+			{
+				System.out.println("Printing: " + memory[(int) i.getValue()]);
+				programCounter++;
+			}	
+			
+			else if (i instanceof IntToFloat)
+			{
+				operandStack.push((double)((int)operandStack.pop()) + 0.0);
+				programCounter++;
+			}
+			
+			else if (i instanceof Goto)
+			{
+				programCounter = (int) i.getValue();
+			}
+		}
+		
+		
 	}
 
 	/**
@@ -655,7 +767,7 @@ public class VM extends LexVM
 
 		System.out.println("**Retargeting jump labels**\n");
 		refractJumpTargets();
-		
+
 		System.out.println("**Printing the array to file**\n");
 		printInstructionArray();
 		Stream.close();

@@ -11,4 +11,10 @@ public class Ireturn extends Instruction
 	{
 		return "ireturn";
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return "ireturn";
+	}
 }

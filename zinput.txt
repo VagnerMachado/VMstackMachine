@@ -1,0 +1,14 @@
+goto 7 
+0:
+iconst 10
+iconst 10
+iadd
+intToFloat
+fconst 20.0
+fmul
+fstore 0
+print 0
+goto 89
+7:
+goto 0
+89:

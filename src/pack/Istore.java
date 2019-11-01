@@ -14,4 +14,10 @@ public class Istore extends Instruction
 	{
 		return "istore " + address;
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return address;
+	}
 }

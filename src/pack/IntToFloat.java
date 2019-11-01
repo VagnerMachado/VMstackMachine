@@ -11,4 +11,10 @@ public class IntToFloat extends Instruction
 	{
 		return "intToFloat";
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return "intToFloat";
+	}
 }

@@ -13,4 +13,10 @@ public class Fload extends Instruction
 	{
 		return "fload " + address;
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return address;
+	}
 }

@@ -11,4 +11,10 @@ public class Return extends Instruction
 	{
 		return "return";
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return "return";
+	}
 }

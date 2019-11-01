@@ -13,4 +13,10 @@ public class Fstore extends Instruction
 	{
 		return "fstore " + address;
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return address;
+	}
 }

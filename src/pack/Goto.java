@@ -18,4 +18,10 @@ public class Goto extends Instruction
 	{
 		jump = VM.jumpMap.get(jump);
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return jump;
+	}
 }

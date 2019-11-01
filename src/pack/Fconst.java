@@ -13,5 +13,11 @@ public class Fconst extends Instruction
 	{	
 		return "fconst " + constant ;
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return constant;
+	}
 
 }

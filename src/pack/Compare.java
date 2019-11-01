@@ -10,5 +10,6 @@ package pack;
  */
 public abstract class Compare extends Instruction 
 {
-public abstract void refract();
+	public abstract void refract();
+	
 }

@@ -11,4 +11,10 @@ public class Imul extends Instruction
 	{
 		return "imul";
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return "imul";
+	}
 }

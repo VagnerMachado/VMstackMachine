@@ -18,4 +18,10 @@ public class Fcmplt extends Compare
 	{
 		jump = VM.jumpMap.get(jump);
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return jump;
+	}
 }

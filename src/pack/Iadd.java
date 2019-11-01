@@ -11,4 +11,10 @@ public class Iadd extends Instruction
 	{
 		return "iadd";
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return "iadd";
+	}
 }

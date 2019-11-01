@@ -20,5 +20,11 @@ public class Invoke extends Instruction
 	{
 		a = VM.jumpMap.get(a);
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return new Integer [] {a,b,c};
+	}
 
 }

@@ -11,4 +11,10 @@ public class Idiv extends Instruction
 	{
 		return "idiv";
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return "idiv";
+	}
 }

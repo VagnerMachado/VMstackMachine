@@ -11,4 +11,10 @@ public class Isub extends Instruction
 	{
 		return "isub";
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return "isub";
+	}
 }

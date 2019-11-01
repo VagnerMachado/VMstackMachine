@@ -13,4 +13,10 @@ public class Print extends Instruction
 	{
 		return "print " + value;
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return value;
+	}
 }

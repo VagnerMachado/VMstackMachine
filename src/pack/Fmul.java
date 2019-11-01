@@ -12,4 +12,10 @@ public class Fmul extends Instruction
 		return "fmul";
 	}
 	
+	@Override
+	public Object getValue() 
+	{
+		return "fmul";
+	}
+	
 }

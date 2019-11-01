@@ -11,4 +11,10 @@ public class Freturn extends Instruction
 	{
 		return "freturn";
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return null;
+	}
 }

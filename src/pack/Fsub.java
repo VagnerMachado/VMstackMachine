@@ -11,4 +11,10 @@ public class Fsub extends Instruction
 	{
 		return "fsub";
 	}
+	
+	@Override
+	public Object getValue() 
+	{
+		return "fsub";
+	}
 }

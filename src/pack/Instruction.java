@@ -14,5 +14,12 @@ public abstract class Instruction
 	 * print - used to display the instruction data
 	 * @return - a string with function data
 	 */
-	public abstract String print();
+	public abstract String print();	
+	
+	/**
+	 * getValue - accessor for value stored in Instruction object
+	 * @return - the value stored in object.
+	 */
+	public abstract Object getValue();
+	
 }

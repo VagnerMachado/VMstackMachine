@@ -12,4 +12,10 @@ public class Fdiv extends Instruction
 		return "fdiv";
 	}
 	
+	
+	@Override
+	public Object getValue() 
+	{
+		return "fdiv";
+	}
 }
