@@ -6,15 +6,20 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
 
-//pass name to parent and get valie for all instructions so you can iterate in method for project 3
 
 /*************************************************************************************
  The objective of Project 3 is to build upon project 2, which purpose was to
  implement a top-down parser and an instruction store for our VM language. 
+
  Project 3 will contains a runtime Stack that holds Frame Objects. These contain
  an operand Stack and memory locations that will be used for processing the output given by
- project 2 via a stack based virtual machine. Please see class Frame for semantics and 
- virtual machine documentation.
+ project 2 via a stack based virtual machine. 
+
+ *************************************************************************************
+
+ Please see documentations for class Frame for semantics and virtual machine documentation
+ used to implement the project 3.
+
  *************************************************************************************
  The EBNF for project 2 and other information is given below.
 
@@ -88,16 +93,17 @@ public class VM extends LexVM
 	 * output in args[1]
 	 * @param args - an array of Strings
 	 */
-	public static void main(String[] args) 
+	public static void main(String[] inputFile) 
 	{	
+		System.out.println("\n************ LEXICAL ANALYSIS ************\n");
 		//public Frame(int pc, Stack<Object> os, int mem , Frame c)
 		Frame main = new Frame(0, new Stack<Object>(), new Object[1000], null);
 		runtimeStack.push(main);
-		if(parseInput(args))
+		if(parseInput(inputFile))
 		{
-			System.out.println("\n\n************ PROJECT 3 INFORMATION ************\n");
+			System.out.println("\n************ VIRTUAL MACHINE EXECUTION ************\n");
 			main.run();
-			System.out.println("\n** Virtual machine execution ended **\n");
+			System.out.println("\n** Virtual machine execution has ended **\n");
 		}
 		else
 		{
@@ -132,13 +138,13 @@ public class VM extends LexVM
 
 		String val = getToken();
 		String colon = "";
-		
+
 		// no input or bad first token
 		if (val == null)
 		{
 			Stream.close();
 			return false; 
-			
+
 		}
 		//iterates through all the tokens and instantiates instruction objects based on DFA state
 		while(val != null)
@@ -639,6 +645,19 @@ public class VM extends LexVM
 			val = getToken();
 		}
 
+		//returns false if there are lexical errors
+		if(Stream.IsStreamAvailable())
+			System.out.println("** The input does not have lexical errors **\n");
+		else
+		{
+			System.out.println("** The input has lexical errors **\n");
+			return false;
+		}
+		System.out.println("** Lexical Analysis has ended **\n");
+			
+		System.out.println("\n************ PARSING ************\n");
+		
+		System.out.println("** Parsed the input **\n");
 		//checks if all targets are valid
 		invokeError = checkTarget(invokeTarget,jumpMap,"invoke");
 		compareError = checkTarget(compareTarget,jumpMap);
@@ -651,31 +670,29 @@ public class VM extends LexVM
 			displayErrorsOnConsole(args[1]);
 			return false;
 		}
+		
+		//System.out.println("** Printing Map to console **\n");
+		//for (HashMap.Entry<Integer,Integer> entry : jumpMap.entrySet())  
+		//System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
+		//System.out.println();
 
-		//*********    Console  information for the program   ************
-		System.out.println("\n************ PROJECT 2 INFORMATION ************\n");
-		System.out.println("** Printing Map to console **\n");
-		for (HashMap.Entry<Integer,Integer> entry : jumpMap.entrySet())  
-			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
-		System.out.println();
-
-		System.out.println("**Retargeting jump labels**\n");
+		System.out.println("** Retargeting jump labels using the Map **\n");
 		refractJumpTargets();
 
-		System.out.println("**Printing the array to file**\n");
+		System.out.println("** Printing the instruction array to file **\n");
 		printInstructionArray();
 		Stream.close();
 
 		if(args.length == 3)
 		{
-			System.out.println("**Comparing generated parsing output to expected parsing output**\n");
+			System.out.println("** Comparing generated parsing output to expected parsing output**\n");
 			Stream.compareOutputs(args[1], args[2]);
 		}
 		else
-			System.out.println("**File with expected parsing output not provided as args[2], check " + 
-					args[1] + " for program generated parsing output**\n");
+			System.out.println("** File with expected parsing output not provided as args[2], check " + 
+					args[1] + " for program generated parsing output **\n");
 
-		System.out.println("**Parsing has ended**\n");
+		System.out.println("** Parsing has ended **\n");
 		return true;
 	}
 
@@ -715,7 +732,7 @@ public class VM extends LexVM
 		} catch (FileNotFoundException e) 
 		{
 			e.printStackTrace();
-			System.out.println("**Error: Not able to open output file**\n\n");
+			System.out.println("\n**Error: Not able to open output file to display Errors**\n");
 		}
 	}
 
@@ -740,7 +757,7 @@ public class VM extends LexVM
 				" This program requires input as command line arguments in order to run properly:\n" +
 				" argv[0] - must be a valid file name with input to be parsed\r\n" + 
 				" argv[1] - a valid file name for the parsed output to be written to\r\n" + 
-				" argv[2] - OPTIONAL: a file with expected output to be compared to generated output.\r\n" + 
+				" argv[2] - OPTIONAL: a file with expected parsing output to be compared to generated parsing output.\r\n" + 
 				"           For details, check the Javadocs for compareOutput() in Stream.java\n" + 
 				"           NOTE: argv[2] is used only if input does not have syntax errors\n\n" +
 				"****************************************************************************************************************\n"+
@@ -752,7 +769,7 @@ public class VM extends LexVM
 				" ** If running on command line, enter the following commands inside folder 'pack' **\n" +
 				" \t javac *.java <enter>\n\t cd .. <enter>\n\t java pack.VM <inputFile.txt> <outputFile.txt> " +
 				"<expectedOutput.txt> <enter> \n  \n\t\t******* SUBSTITUTE THE FILE NAMES ACCORDINGLY ********\n\n" +
-				"NOTE: For command line, the parameter files, MUST be at the same level as 'pack' not inside it\n\n" +
+				"NOTE: For command line, the parameter text files, MUST be at the same level as 'pack' not inside it\n\n" +
 				" *****************************************************************************************");
 	}
 

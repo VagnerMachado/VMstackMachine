@@ -27,7 +27,7 @@ public abstract class Stream
 	public static PrintWriter outStream;   // output stream
 	public static int intToken;            // the integer value of the character read in
 	public static char charToken;          // used to convert the variable "intToken" to the char type whenever necessary
-
+	private static boolean available; //stream open/close status
 	/**
 	 * setStream - Initialized an input stream and an output stream based on parameters
 	 * @param input -  the file name used as input
@@ -44,6 +44,12 @@ public abstract class Stream
 			System.out.println("Error Opening File in Stream class Constructor");
 			e.printStackTrace();
 		}
+		available = true;
+	}
+	
+	public  static boolean IsStreamAvailable()
+	{
+		return available;
 	}
 
 	/**
@@ -119,6 +125,7 @@ public abstract class Stream
 			System.out.println("Error calling close() in Stream class");
 			e.printStackTrace();
 		}
+		available = false;
 	}
 
 	/**
