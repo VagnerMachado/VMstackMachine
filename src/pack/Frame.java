@@ -2,6 +2,12 @@ package pack;
 
 import java.util.Stack;
 
+/**
+ * Frame Class 
+ *************************************************************************************************************
+ *                      @author Vagner Machado - QC ID 23651127 - Fall 2019
+ *************************************************************************************************************
+ */
 public class Frame extends VM
 {
 	private  Stack<Object> operandStack;
@@ -18,12 +24,21 @@ public class Frame extends VM
 	}
 	
 	/**
+	 * receiveReturnedValue - allows a callee frame to push a value onto caller stack of operands
+	 * @param valueFromCalee - callee return value to be pushed to this stack of operands
+	 */
+	private void receiveReturnedValue(Object valueFromCalee)
+	{
+		operandStack.push(valueFromCalee);
+	}
+	
+	/**
 	 * run - performs all actions required to execute the invoke call
 	 * using a stack of operands and memory cells, the method iterates through the instruction array
 	 * and emit valid, push, pop, compare, invoke and other instructions based on 
 	 * contents of array of instructions. 
 	 */
-	public void run()
+	protected void run()
 	{
 		
 
@@ -114,7 +129,7 @@ public class Frame extends VM
 
 			else if (i instanceof Print)
 			{
-				System.out.println("Printing: " + memory[(int) i.getValue()]);
+				System.out.println("Print: " + memory[(int) i.getValue()]);
 				programCounter++;
 			}	
 
@@ -251,24 +266,20 @@ public class Frame extends VM
 
 			else if (i instanceof Return)
 			{
-				if(caller != null)
-					caller.programCounter++;
 				runtimeStack.pop();
 				return;
 			}
 
 			else if (i instanceof Ireturn)
 			{
-				caller.programCounter++;
-				caller.operandStack.push(operandStack.pop());
+				caller.receiveReturnedValue(operandStack.pop());
 				runtimeStack.pop();
 				return;
 			}
 
 			else if (i instanceof Freturn)
 			{
-				caller.programCounter++;
-				caller.operandStack.push(operandStack.pop());
+				caller.receiveReturnedValue(operandStack.pop());
 				runtimeStack.pop();
 				return;
 			}
@@ -284,6 +295,7 @@ public class Frame extends VM
 					}
 				runtimeStack.push(new Frame(val[0], new Stack<Object>(), paramAndMemory, this));
 				runtimeStack.peek().run(); //processes the stack Frame
+				programCounter++;
 			}
 		}
 	}

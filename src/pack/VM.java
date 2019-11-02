@@ -8,13 +8,15 @@ import java.util.Stack;
 
 //pass name to parent and get valie for all instructions so you can iterate in method for project 3
 
-/*****************************************************************
+/*************************************************************************************
  The objective of Project 3 is to build upon project 2, which purpose was to
  implement a top-down parser and an instruction store for our VM language. 
- Project 3 will contain a stack of operands
- and memory locations that will be used for processing the output given by
- project 2 via a stack based virtual machine. The EBNF for project 2 and other 
- information is given below.
+ Project 3 will contains a runtime Stack that holds Frame Objects. These contain
+ an operand Stack and memory locations that will be used for processing the output given by
+ project 2 via a stack based virtual machine. Please see class Frame for semantics and 
+ virtual machine documentation.
+ *************************************************************************************
+ The EBNF for project 2 and other information is given below.
 
 <instruction list> -> { <instruction unit> }+
 <instruction unit> -> [ <label> ] <instruction>
@@ -54,9 +56,9 @@ import java.util.Stack;
  *  
  *  This program requires input as command line arguments in order to run properly:
  *  
- *  argv[0] - must be a valid file name with input to be parsed
+ *  argv[0] - must be a valid file name with input to be lexically analyzed, parsed and executed
  *  argv[1] - a valid file name for the parsed output to be written to
- *  argv[2] - OPTIONAL: a file with expected output to be compared to generated output
+ *  argv[2] - OPTIONAL: a file with expected parsing output to be compared to generated output
  *            for details, check the Javadocs for comapareOutput() in Stream.java
  *            
  ****************************************************************************************************************
@@ -93,6 +95,7 @@ public class VM extends LexVM
 		runtimeStack.push(main);
 		if(parseInput(args))
 		{
+			System.out.println("\n\n************ PROJECT 3 INFORMATION ************\n");
 			main.run();
 			System.out.println("\n** Virtual machine execution ended **\n");
 		}
@@ -129,6 +132,14 @@ public class VM extends LexVM
 
 		String val = getToken();
 		String colon = "";
+		
+		// no input or bad first token
+		if (val == null)
+		{
+			Stream.close();
+			return false; 
+			
+		}
 		//iterates through all the tokens and instantiates instruction objects based on DFA state
 		while(val != null)
 		{
@@ -642,7 +653,7 @@ public class VM extends LexVM
 		}
 
 		//*********    Console  information for the program   ************
-
+		System.out.println("\n************ PROJECT 2 INFORMATION ************\n");
 		System.out.println("** Printing Map to console **\n");
 		for (HashMap.Entry<Integer,Integer> entry : jumpMap.entrySet())  
 			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 

@@ -203,6 +203,7 @@ public abstract class LexVM
 		if (i == 0) //error
 		{
 			Stream.displayln(tokens + "\t: Lexical Error, invalid token");
+			System.out.println(tokens + "\t: Lexical Error, invalid token");
 			return null;
 		}
 		else if (i == 1) // valid
