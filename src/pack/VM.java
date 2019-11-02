@@ -71,15 +71,14 @@ public class VM extends LexVM
 {
 	//Project 2 variables
 	protected static HashMap<Integer, Integer> jumpMap = new HashMap<Integer, Integer>();
-	private static Instruction [] instructionArray = new Instruction[1000];
-	private static int arrayLocation = 0; //for printing the array
+	protected static Instruction [] instructionArray = new Instruction[1000];
+	protected static int arrayLocation = 0; //for printing the array
 	private static HashMap<Integer, String> compareTarget = new HashMap<Integer,String>(); //used to check for label existence
 	private static ArrayList<Integer> gotoTarget = new ArrayList<Integer>(); //used to check for label existence
 	private static ArrayList<Integer> invokeTarget = new ArrayList<Integer>(); //used to check for label existence
 
 	//Project 3 variables
-	private static Stack<Object> operandStack = new Stack<Object>();
-	private static Object [] memory = new Object[1000];
+	protected static Stack <Frame> runtimeStack = new Stack<Frame>();
 
 
 	/**
@@ -89,134 +88,18 @@ public class VM extends LexVM
 	 */
 	public static void main(String[] args) 
 	{	
-
-		System.out.println();
+		//public Frame(int pc, Stack<Object> os, int mem , Frame c)
+		Frame main = new Frame(0, new Stack<Object>(), new Object[1000], null);
+		runtimeStack.push(main);
 		if(parseInput(args))
 		{
-			processOnVMstack();
+			main.run();
 			System.out.println("\n** Virtual machine execution ended **\n");
 		}
 		else
 		{
 			System.out.println("\n** The virtual machine cannot execute because of error(s) on input **\n");
 		}
-
-	}
-
-	/**
-	 * processOnVMstack - performs all actions required for Project 3:
-	 * using a stack and memory cells, the method iterates through the instruction array
-	 * and emit valid, push, pop, compare, invoke and other instructions based on 
-	 * contents of array of instructions. 
-	 */
-	private static void processOnVMstack() 
-	{
-		int programCounter = 0;
-		while(programCounter < arrayLocation)
-		{
-			//System.out.println("here: " + programCounter);
-			Instruction i = instructionArray[programCounter];
-			if(i instanceof Iconst || i instanceof Fconst)
-			{
-				operandStack.push(i.getValue());
-				programCounter++;
-			}
-			
-			else if(i instanceof Iload || i instanceof Fload)
-			{
-				operandStack.push(memory[(int) i.getValue()]);
-				programCounter++;
-			}
-			
-			else if(i instanceof Istore || i instanceof Fstore)
-			{
-				memory[(int) i.getValue()] = operandStack.pop();
-				programCounter++;
-			}
-			
-			else if(i instanceof Iadd)
-			{
-				int top = (int) operandStack.pop();
-				int bottom = (int) operandStack.pop();
-				operandStack.push(bottom + top);
-				programCounter++;
-			}
-			
-			else if(i instanceof Fadd)
-			{
-				double top = (double) operandStack.pop();
-				double bottom = (double) operandStack.pop();
-				operandStack.push(bottom + top);
-				programCounter++;
-			}
-			
-			else if(i instanceof Isub)
-			{
-				int top = (int) operandStack.pop();
-				int bottom = (int) operandStack.pop();
-				operandStack.push(bottom - top);
-				programCounter++;
-			}
-			
-			else if(i instanceof Fsub)
-			{
-				double top = (double) operandStack.pop();
-				double bottom = (double) operandStack.pop();
-				operandStack.push(bottom - top);
-				programCounter++;
-			}
-			
-			else if(i instanceof Imul)
-			{
-				int top = (int) operandStack.pop();
-				int bottom = (int) operandStack.pop();
-				operandStack.push(bottom * top);
-				programCounter++;
-			}
-			
-			else if(i instanceof Fmul)
-			{
-				double top = (double) operandStack.pop();
-				double bottom = (double) operandStack.pop();
-				operandStack.push(bottom * top);
-				programCounter++;
-			}
-			
-			else if(i instanceof Idiv)
-			{
-				int top = (int) operandStack.pop();
-				int bottom = (int) operandStack.pop();
-				operandStack.push(bottom / top);
-				programCounter++;
-			}
-			
-			else if(i instanceof Fdiv)
-			{
-				double top = (double) operandStack.pop();
-				double bottom = (double) operandStack.pop();
-				operandStack.push(bottom / top);
-				programCounter++;
-			}
-			
-			else if (i instanceof Print)
-			{
-				System.out.println("Printing: " + memory[(int) i.getValue()]);
-				programCounter++;
-			}	
-			
-			else if (i instanceof IntToFloat)
-			{
-				operandStack.push((double)((int)operandStack.pop()) + 0.0);
-				programCounter++;
-			}
-			
-			else if (i instanceof Goto)
-			{
-				programCounter = (int) i.getValue();
-			}
-		}
-		
-		
 	}
 
 	/**
@@ -781,7 +664,7 @@ public class VM extends LexVM
 			System.out.println("**File with expected parsing output not provided as args[2], check " + 
 					args[1] + " for program generated parsing output**\n");
 
-		System.out.println("**The program has ended**\n");
+		System.out.println("**Parsing has ended**\n");
 		return true;
 	}
 
