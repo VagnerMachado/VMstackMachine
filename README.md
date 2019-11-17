@@ -28,6 +28,6 @@ Project 3 will contains a runtime Stack that holds Frame Objects. These contain 
 
 Below are extra details for the semantics:
 
-
+[![Semantics by Vagner](Proj3.png)](https://github.com/VagnerMachado/VMstackMachine/Proj3.png)
 
 
