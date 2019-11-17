@@ -86,7 +86,7 @@ public class VM extends LexVM
 
 	//Project 3 variables
 	protected static Stack <Frame> runtimeStack = new Stack<Frame>();
-
+	protected static  Stack<Object> operandStack = new Stack<Object>();
 
 	/**
 	 * main - parses and executed lexically correct input in file argument args[0] and saves the parsed 
@@ -97,7 +97,7 @@ public class VM extends LexVM
 	{	
 		System.out.println("\n************ LEXICAL ANALYSIS ************\n");
 		//public Frame(int pc, Stack<Object> os, int mem , Frame c)
-		Frame main = new Frame(0, new Stack<Object>(), new Object[1000], null);
+		Frame main = new Frame();
 		runtimeStack.push(main);
 		if(parseInput(inputFile))
 		{

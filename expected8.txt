@@ -1,3 +1,0 @@
-Target label 16 of goto instruction is missing.
-Target label 18 of invoke instruction is missing.
-Target label 17 of icmpgt instruction is missing.

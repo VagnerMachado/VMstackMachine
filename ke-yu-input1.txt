@@ -32,10 +32,10 @@
 	istore 2
 	iload 2
 	iconst 0
-	icmpgt 9
+	icmplt 9
 	iload 2
 	iconst 10
-	icmpgt 10
+	icmplt 10
 9:      iconst +6453
 	ireturn
 10:     iconst -1540
@@ -106,13 +106,30 @@
 	invoke 5, 2, 1
 	istore 2
 	print 2
+	iconst 10
+	iconst 5
+	invoke 5, 2, 1
+	istore 2
+	print 2
 
+	iconst -5
+	invoke 6, 1, 0
+	istore 2
+	print 2
+	iconst 5
+	invoke 6, 1, 0
+	istore 2
+	print 2
 	iconst 15
 	invoke 6, 1, 0
 	istore 2
 	print 2
+	iconst 25
+	invoke 6, 1, 0
+	istore 2
+	print 2
 
-	iconst 5
+	iconst 10
 	invoke 7, 1, 0
 	istore 2
 	print 2

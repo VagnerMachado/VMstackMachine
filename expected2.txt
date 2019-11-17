@@ -1,2 +1,0 @@
--123.98 : Syntax Error, unexpected symbol where integer expected
--123.98  -- unexpected symbol

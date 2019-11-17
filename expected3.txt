@@ -1,2 +1,0 @@
-265 : Syntax Error, unexpected symbol where floating-point number expected
-fload : Syntax Error, unexpected symbol where : expected

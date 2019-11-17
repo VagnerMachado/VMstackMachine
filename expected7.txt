@@ -1,2 +1,0 @@
-Label 4 occurs more than once.
-Label 1 occurs more than once.
