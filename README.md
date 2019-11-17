@@ -1,6 +1,6 @@
 # VMstackMachine
 
-This project builds upon VMParser to implement a stack based virtual machine based on semantics for instructions.        
+**This project builds upon VMParser to implement a stack based virtual machine based on semantics for instructions.**        
 
 ---  
 
@@ -26,8 +26,21 @@ Project 3 will contains a runtime Stack that holds Frame Objects. These contain 
 
 ---   
 
-Below are extra details for the semantics:
+Below are extra details for the semantics:    
 
-[![Semantics by Vagner](Proj3.png)](https://github.com/VagnerMachado/VMstackMachine/Proj3.png)
+[![Semantics by Vagner](Proj3.png)](https://github.com/VagnerMachado/VMstackMachine/blob/master/Proj3.png)   
+
+---
+
+
+**Running the program**   
+
+This program requires input as command line arguments in order to run properly:     
+   
+  argv[0] - must be a valid file name with input to be lexically analyzed, parsed and executed      
+  argv[1] - a valid file name for the parsed output to be written to     
+  argv[2] - OPTIONAL: a file with expected parsing output to be compared to generated output for details, check the Javadocs for comapareOutput() in Stream.java    
+  
+  ---
 
 
